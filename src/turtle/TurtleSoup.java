@@ -13,9 +13,11 @@ public class TurtleSoup {
      * @param sideLength length of each side
      */
     public static void drawSquare(Turtle turtle, int sideLength) {
-        for (int x = 0; x < 4; x++) {
+        int numberOfSides = 4;
+        int interiorAngle = 90;
+        for (int x = 0; x < numberOfSides; x++) {
             turtle.forward(sideLength);
-            turtle.turn(90);
+            turtle.turn(interiorAngle);
         }
     }
 
@@ -29,8 +31,7 @@ public class TurtleSoup {
      * @return angle, in degrees between 0 and 360
      */
     public static double calculateRegularPolygonAngle(int sides) {
-        double angle = (double)((sides - 2) * 180)/sides;
-        return angle;               
+        return ((sides - 2) * 180.0)/sides;              
     }
 
     /**
@@ -44,8 +45,8 @@ public class TurtleSoup {
      * @return the integer number of sides
      */
     public static int calculatePolygonSidesFromAngle(double angle) {
-        int sides = (int)Math.ceil(360/(180 - angle));
-        return sides;
+        //inverse of formula for calculating interior angles from sides
+        return (int)Math.ceil(360/(180 - angle));
     }
 
     /**
@@ -59,7 +60,6 @@ public class TurtleSoup {
      */
     public static void drawRegularPolygon(Turtle turtle, int sides, int sideLength) {
         double insideAngle = calculateRegularPolygonAngle(sides);
-        System.out.println(insideAngle);
         for (int x = 0; x < sides; x++) {
             turtle.forward(sideLength);
             turtle.turn(180 - insideAngle);
@@ -109,9 +109,6 @@ public class TurtleSoup {
      */
     public static List<Double> calculateHeadings(List<Integer> xCoords, List<Integer> yCoords) {
         List<Double> headings = new ArrayList<Double>();
-        
-        //double currentHeading = calculateHeadingToPoint(0, xCoords.get(0), yCoords.get(0), xCoords.get(1), yCoords.get(1));
-        //headings.add(currentHeading);
         double currentHeading = 0;
         for (int x = 0; x < xCoords.size() - 1; x++) {
             currentHeading = calculateHeadingToPoint(currentHeading, xCoords.get(x), yCoords.get(x), xCoords.get(x + 1), yCoords.get(x + 1));
