@@ -125,14 +125,15 @@ public class TurtleSoup {
      * @param turtle the turtle context
      */
     
-    //draws random lines at random angles, terminates if the angle gets to be above 270
+    //draws random lines at random angles
     public static void drawPersonalArt(Turtle turtle) {
+        int length = 100;
         double angle = 90;
-        while (angle < 270) {
-            int length = (int)Math.random();
-            angle = Math.random() % 360;
+        while (angle < 180) {
             turtle.forward(length);
             turtle.turn(angle);
+            length++;
+            angle++;
         }
     }
 
