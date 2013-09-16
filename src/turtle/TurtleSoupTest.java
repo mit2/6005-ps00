@@ -25,7 +25,6 @@ public class TurtleSoupTest {
         assertEquals(3, TurtleSoup.calculatePolygonSidesFromAngle(60.0));
         assertEquals(7, TurtleSoup.calculatePolygonSidesFromAngle(128.57));
         assertEquals(5, TurtleSoup.calculatePolygonSidesFromAngle(108.0));
-
     }
 
     /**
