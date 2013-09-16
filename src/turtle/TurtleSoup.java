@@ -46,7 +46,7 @@ public class TurtleSoup {
      */
     public static int calculatePolygonSidesFromAngle(double angle) {
         //inverse of formula for calculating interior angles from sides
-        return (int)Math.ceil(360/(180 - angle));
+        return (int)Math.round(360/(180 - angle));
     }
 
     /**
@@ -86,14 +86,9 @@ public class TurtleSoup {
     public static double calculateHeadingToPoint(double currentHeading, int currentX, int currentY,
                                                  int targetX, int targetY) {
         double heading = Math.toDegrees(Math.atan2(targetX - currentX, targetY - currentY));
-        double angle = currentHeading;
-        if (heading < currentHeading) {
-            angle = 360 - currentHeading - heading;
-        }
-        else {
-            angle = heading - currentHeading;
-        }
-        return angle;
+        double newHeading = heading - currentHeading;
+        //make sure newHeading is between 0 and 360
+        return ((newHeading % 360) + 360) % 360;
     }
 
     /**
@@ -111,8 +106,10 @@ public class TurtleSoup {
         List<Double> headings = new ArrayList<Double>();
         double currentHeading = 0;
         for (int x = 0; x < xCoords.size() - 1; x++) {
-            currentHeading = calculateHeadingToPoint(currentHeading, xCoords.get(x), yCoords.get(x), xCoords.get(x + 1), yCoords.get(x + 1));
-            headings.add(currentHeading);
+            double newHeading = calculateHeadingToPoint(currentHeading, xCoords.get(x), yCoords.get(x), xCoords.get(x + 1), yCoords.get(x + 1));
+            //must add all newHeadings up to calculate the currentHeading
+            currentHeading = (currentHeading + newHeading) % 360;
+            headings.add(newHeading);
         }
         return headings;
     }
@@ -127,14 +124,15 @@ public class TurtleSoup {
      * 
      * @param turtle the turtle context
      */
+    
+    //draws random lines at random angles, terminates if the angle gets to be above 270
     public static void drawPersonalArt(Turtle turtle) {
-        int length = 1;
-        int angle = 90;
-        while (angle < 180) {
+        double angle = 90;
+        while (angle < 270) {
+            int length = (int)Math.random();
+            angle = Math.random() % 360;
             turtle.forward(length);
             turtle.turn(angle);
-            length++;
-            angle++;
         }
     }
 
